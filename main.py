@@ -1,5 +1,4 @@
 import flet as ft
-
 from model.model_app import Model
 from UI.view import View
 from UI.controller import Controller

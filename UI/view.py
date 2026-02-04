@@ -1,5 +1,6 @@
 from UI.alert import AlertManager
 import flet as ft
+from UI.controller import Controller
 
 class View:
     def __init__(self, page: ft.Page):
@@ -20,7 +21,7 @@ class View:
         self.btn_crea_grafo = None
         self.btn_classifica = None
         self.btn_cerca_percorso = None
-        self.list_risultato = None
+        self.lista_visualizzazione = None
         self.toggle_tema = None
 
     def set_controller(self, controller):
@@ -41,21 +42,22 @@ class View:
 
         self.dd_ruolo = ft.Dropdown(label="Seleziona ruolo artista", width=250)
 
-        self.dd_iniziale = ft.Dropdown(label="Artista Iniziale", width=250, disabled=True)
+        self.dd_iniziale = ft.Dropdown(label="Artista Iniziale", width=250,)
 
         self.input_L = ft.TextField(label="Lunghezza cammino", width=200, value="3")
 
         self.btn_crea_grafo = ft.ElevatedButton("Crea Grafo", on_click=self._controller.handle_crea_grafo)
-        self.btn_classifica = ft.ElevatedButton("Classifica", disabled=True, on_click=self._controller.handle_classifica)
+        self.btn_classifica = ft.ElevatedButton("Classifica", on_click=self._controller.handle_classifica)
         self.btn_cerca_percorso = ft.ElevatedButton("Cerca percorso", disabled=True)
 
-        self.list_risultato = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
+        self.lista_visualizzazione = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
 
         self.toggle_tema = ft.Switch(label="Tema scuro", value=True, on_change=self._cambia_tema)
 
         row1 = ft.Row([self.dd_ruolo, self.btn_crea_grafo, self.btn_classifica], alignment=ft.MainAxisAlignment.CENTER)
         row2 = ft.Row([self.dd_iniziale, self.btn_cerca_percorso], alignment=ft.MainAxisAlignment.CENTER)
         row3 = ft.Row([self.input_L], alignment=ft.MainAxisAlignment.CENTER)
+        self._controller.populate_dd_role()
 
         self._page.add(
             self.toggle_tema,
@@ -63,7 +65,7 @@ class View:
             row1,
             row2,
             row3,
-            self.list_risultato
+            self.lista_visualizzazione
         )
 
         self._page.scroll = "adaptive"
